@@ -1,0 +1,145 @@
+basePath: /
+definitions:
+  models.ErrorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.Task:
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.TaskDto:
+    properties:
+      description:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: API Support
+  description: This is a sample server...
+  title: Fiber Swagger Example API
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      consumes:
+      - '*/*'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Succeed gets tasks
+          schema:
+            items:
+              $ref: '#/definitions/models.Task'
+            type: array
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get all tasks
+      tags:
+      - tasks
+    post:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: Task to create
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskDto'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Creates
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Create a new task
+      tags:
+      - tasks
+  /tasks/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Task was deleted
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Delete a task
+      tags:
+      - tasks
+    put:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated task
+        in: body
+        name: task
+        required: true
+        schema:
+          $ref: '#/definitions/models.TaskDto'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+        "400":
+          description: Invalid date
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Update a task
+      tags:
+      - tasks
+schemes:
+- http
+swagger: "2.0"
